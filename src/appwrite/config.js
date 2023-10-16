@@ -1,4 +1,4 @@
-import { Client, Account, ID, Databases } from 'appwrite';
+import { Client, ID, Databases } from 'appwrite';
 import conf from './conf/conf.js';
 
 export class Service{
@@ -87,6 +87,7 @@ export class Service{
         }
 
     }
+    // eslint-disable-next-line no-undef
     async getPosts(queries = [Query.equal("status","active")]) {
         try {
             return await this.databases.listDocuments(
