@@ -1,5 +1,6 @@
-import { Client, ID, Databases } from 'appwrite';
-import conf from './conf/conf.js';
+import conf from '../conf/conf'
+import { Client, ID, Databases, Storage, Query } from 'appwrite';
+
 
 export class Service{
     client = new Client();
@@ -88,27 +89,26 @@ export class Service{
 
     }
     // eslint-disable-next-line no-undef
-    async getPosts(queries = [Query.equal("status","active")]) {
+    async getPosts(queries = [Query.equal("status", "active")]){
         try {
             return await this.databases.listDocuments(
                 conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
                 queries,
-            );
-            
-        } catch (error) {
-            console.log("APPWRITE SERVICE ERROR: get posts error", error)
-            return false
-            
-        }
+                
 
+            )
+        } catch (error) {
+            console.log("Appwrite serive :: getPosts :: error", error);
+            return false
+        }
     }
 
     // file upload service
     async uploadFile(file) {
         try {
             await this.bucket.createFile(
-                conf.appWriteStorageId,
+                conf.appwriteStorageId,
                 ID.unique(),
                 file
             );
@@ -122,7 +122,7 @@ export class Service{
     async deleteFile(fileId) {
         try {
             await this.bucket.deleteFile(
-                conf.appWriteStorageId,
+                conf.appwriteStorageId,
                 fileId
             )
         } catch (error) {
@@ -134,13 +134,13 @@ export class Service{
 
     getFilePreview(fileId) {
         return this.bucket.getFilePreview(
-            conf.appWriteStorageId,
+            conf.appwriteStorageId,
             fileId
         )
     }
 
 }
 
-const service = new Service();  
+const appwriteService = new Service();  
 
-export default service
+export default appwriteService
